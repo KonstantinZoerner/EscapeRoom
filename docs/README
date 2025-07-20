@@ -1,0 +1,7 @@
+Zum starten:
+
+1: In diesem Ordner folgeden Command ausführen: 
+python3 -m http.server 8000
+
+2: In anderer Commandline folgenden Command ausführen
+ngrok http --url=modest-instantly-bedbug.ngrok-free.app 8000

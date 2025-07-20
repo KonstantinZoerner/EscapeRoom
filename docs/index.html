@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zahlencode Eingabe</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    .welcome-box {
+      text-align: center;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+    }
+    .welcome-box h1 {
+      font-size: 1.8rem;
+      color: #333;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .lock-box {
+      text-align: center;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .lock-img {
+      width: 120px;
+      max-width: 100%;
+      margin: 0 auto 1rem;
+    }
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .code-inputs input {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      font-size: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      -moz-appearance: textfield;
+    }
+    .code-inputs input::-webkit-outer-spin-button,
+    .code-inputs input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      min-height: 3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    #lock4-container {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-wrapper">
+    <!-- <div class="welcome-box">
+      <h1>Du hast drei Schlösser und einen mysteriösen Umschlag gefunden.</h1>
+    </div> -->
+    <div class="container" id="locks-container">
+     <div class="lock-box">
+        <img id="lock1" src="closed-lock1.png" alt="Schloss 1" class="lock-img" />
+        <div class="code-inputs">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code1-1" oninput="moveFocus(event, 'code1', 1)" onkeydown="handleKey(event, 1, 'code1', 1)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code1-2" oninput="moveFocus(event, 'code1', 2)" onkeydown="handleKey(event, 1, 'code1', 2)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code1-3" oninput="moveFocus(event, 'code1', 3)" onkeydown="handleKey(event, 1, 'code1', 3)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code1-4" onkeydown="handleKey(event, 1, 'code1', 4)" />
+        </div>
+        <button onclick="checkCode(1)">Check</button>
+        <div class="message" id="message1"></div>
+      </div>
+
+      <div class="lock-box">
+        <img id="lock2" src="closed-lock2.png" alt="Schloss 2" class="lock-img" />
+        <div class="code-inputs">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code2-1" oninput="moveFocus(event, 'code2', 1)" onkeydown="handleKey(event, 2, 'code2', 1)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code2-2" oninput="moveFocus(event, 'code2', 2)" onkeydown="handleKey(event, 2, 'code2', 2)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code2-3" oninput="moveFocus(event, 'code2', 3)" onkeydown="handleKey(event, 2, 'code2', 3)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code2-4" onkeydown="handleKey(event, 2, 'code2', 4)" />
+        </div>
+        <button onclick="checkCode(2)">Check</button>
+        <div class="message" id="message2"></div>
+      </div>
+
+      <div class="lock-box">
+        <img id="lock3" src="closed-lock3.png" alt="Schloss 3" class="lock-img" />
+        <div class="code-inputs">
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code3-1" oninput="moveFocus(event, 'code3', 1)" onkeydown="handleKey(event, 3, 'code3', 1)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code3-2" oninput="moveFocus(event, 'code3', 2)" onkeydown="handleKey(event, 3, 'code3', 2)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code3-3" oninput="moveFocus(event, 'code3', 3)" onkeydown="handleKey(event, 3, 'code3', 3)" />
+          <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*" id="code3-4" onkeydown="handleKey(event, 3, 'code3', 4)" />
+        </div>
+        <button onclick="checkCode(3)">Check</button>
+        <div class="message" id="message3"></div>
+      </div>
+      <div class="lock-box" id="lock4-container">
+        <img id="lock4" src="closed-lock4.png" alt="Schloss 4" class="lock-img" />
+        <div class="code-inputs">
+          <input type="tel" maxlength="1" inputmode="numeric" id="code4-1" oninput="moveFocus(event, 'code4', 1)" onkeydown="handleKey(event, 4, 'code4', 1)" />
+          <input type="tel" maxlength="1" inputmode="numeric" id="code4-2" oninput="moveFocus(event, 'code4', 2)" onkeydown="handleKey(event, 4, 'code4', 2)" />
+          <input type="tel" maxlength="1" inputmode="numeric" id="code4-3" oninput="moveFocus(event, 'code4', 3)" onkeydown="handleKey(event, 4, 'code4', 3)" />
+          <input type="tel" maxlength="1" inputmode="numeric" id="code4-4" onkeydown="handleKey(event, 4, 'code4', 4)" />
+        </div>
+        <button onclick="checkCode(4)">Check</button>
+        <div class="message" id="message4"></div>
+      </div>
+    </div>
+  </div>
+  <audio id="unlock-sound" src="unlock.mp3" preload="auto"></audio>
+  <audio id="locked-sound" src="locked.mp3" preload="auto"></audio>
+  <script>
+    const correctCodes = {
+      1: "0827", // Rotes Schloss
+      2: "2659", // Grünes Schloss
+      3: "3479", // Blaues Schloss
+      4: "3721" // Gelbes Schloss
+    };
+    const messages = {
+      1: { correct: "Geschafft! Das Schloss ist offen. Du schaust in den roten Umschlag und findest 5 Dinge sowie eine mysteriöse Box. Doch was ist das...? ein weiteres Schloss?!" }, // Rotes Schloss
+      2: { correct: "Juchuu! Das war richtig! Das Grüne Schloss gibt sein Geheimnis Preis. Du darfst in den grünen Umschlag gucken in dem du 5 Teile findest." }, // Grünes Schloss
+      3: { correct: "Bravo! Der Code war richtig! Das blaue Schloss macht \"Klick\" und du schaust in den blauen Umschlag. Hier findest du 5 Sachen. Oh guck mal, eine Möwe! Beeil dich, bevor sie wegfliegt." }, // Blaues Schloss
+      4: { correct: "Yayy! Das letzte Schloss öffnet sich mit einem metallischen Geräusch. Doch der Inhalt des gelben Umschlags ist ernüchternd... Nur 2 Gegenstände." } // Gelbes Schloss
+    };
+    const listIncorrect = [
+      "Hmm... das war wohl nix",
+      "Ich habe kein Klicken gehört, du etwa?",
+      "Das Schloss ist immer noch zu",
+      "Tja, es ist noch kein Meisterdetektiv vom Himmel gefallen",
+      "Dieses Schloss hat wohl heute schlechte Laune",
+      "Ein bisschen mehr Mühe, bitte!",
+      "Vielleicht war’s der richtige Code... für ein anderes Schloss?",
+      "Nope. Versuch’s nochmal!",
+      "Nichts passiert. Gar nichts. Absolut überhaupt nichts.",
+      "Fast... aber eben nur fast.",
+      "Dein Code wurde vom Schloss ignoriert.",
+      "Nicht raten ;)",
+      "Ein Versuch war es wert, aber leider falsch."
+    ];
+    const openedLocks = new Set();
+    currentErrorMessage = 0;
+    function moveFocus(e, group, index) {
+      const input = e.target;
+      if (input.value.length === 1 && index < 4) {
+        document.getElementById(`${group}-${index + 1}`).focus();
+      }
+    }
+    function handleKey(e, lockNumber, group, index) {
+      const input = e.target;
+      if (e.key === "Backspace" && input.value === "" && index > 1) {
+        const prevInput = document.getElementById(`${group}-${index - 1}`);
+        prevInput.focus();
+        prevInput.value = "";
+        e.preventDefault();
+      }
+      if (e.key === "Enter") {
+        checkCode(lockNumber);
+      }
+    }
+    function clearInputs(group) {
+      for (let i = 1; i <= 4; i++) {
+        const input = document.getElementById(`${group}-${i}`);
+        input.value = "";
+      }
+      document.getElementById(`${group}-1`).focus();
+    }
+    function checkCode(lockNumber) {
+      let code = "";
+      for (let i = 1; i <= 4; i++) {
+        code += document.getElementById(`code${lockNumber}-${i}`).value;
+      }
+      const message = document.getElementById(`message${lockNumber}`);
+      const lockImg = document.getElementById(`lock${lockNumber}`);
+      const unlockSound = document.getElementById("unlock-sound");
+      const lockedSound = document.getElementById("locked-sound");
+      if (code === correctCodes[lockNumber]) {
+        message.textContent = messages[lockNumber].correct;
+        message.style.color = "green";
+        lockImg.src = `open-lock${lockNumber}.png`;
+        unlockSound.currentTime = 0;
+        unlockSound.play();
+        openedLocks.add(lockNumber);
+        if (openedLocks.size === 3 && !openedLocks.has(4)) {
+          document.getElementById("lock4-container").style.display = "flex";
+        }
+      } else {
+        message.textContent = listIncorrect[currentErrorMessage];
+        currentErrorMessage = (currentErrorMessage + 1) % listIncorrect.length;
+        message.style.color = "red";
+        lockImg.src = `closed-lock${lockNumber}.png`;
+        lockedSound.currentTime = 0;
+        lockedSound.play();
+        openedLocks.delete(lockNumber);
+        clearInputs(`code${lockNumber}`);
+      }
+    }
+  </script>
+</body>
+</html>
