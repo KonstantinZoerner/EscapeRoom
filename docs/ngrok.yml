@@ -1,0 +1,6 @@
+authtoken: INSERT TOKEN HERE
+tunnels:
+  mysite:
+    proto: http
+    addr: 8000
+    domain: modest-instantly-bedbug.ngrok-free.app
